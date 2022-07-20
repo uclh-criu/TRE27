@@ -32,14 +32,14 @@ git checkout -b feature123
 ```
 git push -u origin feature123
 ```
-4. Run the CI pipeline (TEST environment)
+4. Run the CI pipeline (DEV environment)
 5. If all tests pass these changes can be pushed to develop:
 ```
 git checkout develop
 git merge feature123
 git push -u origin develop
 ```
-6. Run the CI pipeline (DEV environment)
+6. Run the CI pipeline (TEST environment)
 7. If all tests pass, these changes can be pushed to the release branch:
 ```
 git checkout -b release
@@ -61,3 +61,45 @@ git push --delete origin release
 ```
 
 # Incorporating Changes from the Microsoft TRE
+
+1. Create a new develop branch from main
+```
+git checkout main
+git checkout -b develop
+```
+2. Create a new branch for the Microsoft Updates
+```
+git checkout -b ms_main
+```
+3. Fetch the latest commits from the Microsoft Azure TRE project
+```
+git fetch msr main
+```
+4. Rebase ms_main to msr/main
+```
+git rebase msr/main
+```
+5. Run CI/CD pipeline (DEV environment)
+```
+git push -u origin ms_main
+```
+6. If testing passes push changes to develop
+```
+git checkout develop
+git merge ms_main
+git push -u origin develop
+```
+7. Run CI/CD pipeline (TEST environment)
+8. If testing passes, push the changes to main
+```
+git checkout main
+git pull
+git merge develop
+git push -u origin main
+```
+9. Before starting the next release, delete **develop**, **ms_main**
+```
+git branch -d develop
+git push --delete origin develop
+git branch -d ms_main
+git push --delete origin ms_main
