@@ -32,25 +32,27 @@ git checkout -b feature123
 ```
 git push -u origin feature123
 ```
-4. Run the CI pipeline (DEV environment)
+4. Run the CI pipeline (CI/CD environment)
 5. If all tests pass these changes can be pushed to develop:
 ```
 git checkout develop
 git merge feature123
 git push -u origin develop
 ```
-6. Run the CI pipeline (TEST environment)
+6. Run the CI pipeline (DEV environment)
 7. If all tests pass, these changes can be pushed to the release branch:
 ```
 git checkout -b release
 ```
-8. When your ready to release the feature, push the changes to main:
+8. Run the CI/CD pipeline (TEST environment)
+9. If all tests pass, push the changes to main:
 ```
 git checkout main
+git pull
 git merge release
 git push -u origin main
 ```
-9. Before starting the next release, delete **develop**, **feature123** and **release**
+10. Before starting the next release, delete **develop**, **feature123** and **release**
 ```
 git branch -d develop
 git push --delete origin develop
@@ -79,7 +81,7 @@ git fetch msr main
 ```
 git rebase msr/main
 ```
-5. Run CI/CD pipeline (DEV environment)
+5. Run CI/CD pipeline (CICD environment)
 ```
 git push -u origin ms_main
 ```
@@ -89,16 +91,25 @@ git checkout develop
 git merge ms_main
 git push -u origin develop
 ```
-7. Run CI/CD pipeline (TEST environment)
-8. If testing passes, push the changes to main
+7. Run CI/CD pipeline (DEV environment)
+8. If testing passes, push the changes to release
+```
+git checkout -b release
+git merge develop
+git push -u origin release
+```
+9. Run the CI/CD pipeline (TEST environment)
+10. If the testing passes, push the changes to main:
 ```
 git checkout main
 git pull
-git merge develop
+git merge release
 git push -u origin main
 ```
-9. Before starting the next release, delete **develop**, **ms_main**
+9. Before starting the next release, delete **release**, **develop**, **ms_main**
 ```
+git branch -d release
+git push --delete origin release
 git branch -d develop
 git push --delete origin develop
 git branch -d ms_main
