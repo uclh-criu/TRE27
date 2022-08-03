@@ -116,6 +116,7 @@ function wait_for_operation_result() {
 }
 
 # curl_settings=(--retry 7 --retry-max-time 300 --max-time 90)
+curl_settings=(--retry 8 --max-time 180 --retry-max-time 600)
 
 # Get shared services and determine if the given shared service has already been deployed
 get_shared_services_result=$(curl -i "${curl_settings[@]}" -X "GET" "${tre_url}"/api/shared-services \
