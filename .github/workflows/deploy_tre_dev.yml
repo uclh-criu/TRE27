@@ -16,7 +16,7 @@ on:  # yamllint disable-line rule:truthy
 concurrency: "${{ github.workflow }}-${{ github.ref }}"
 
 jobs:
-  run-deploy-tre-main:
+  run-deploy-tre-dev:
     name: "Deploy Dev"
     if: github.ref == 'refs/heads/develop'
     uses: ./.github/workflows/deploy_tre_reusable.yml
